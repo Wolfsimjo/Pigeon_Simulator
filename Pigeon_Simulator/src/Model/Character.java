@@ -1,5 +1,8 @@
+package Model;
 
-public class Character 
+import java.awt.Graphics;
+
+public abstract class Character 
 {
 	protected double coordX;
 	protected double coordY;
@@ -31,4 +34,6 @@ public class Character
 	public void setCoordY(double coordY) {
 		this.coordY = coordY;
 	}
+	
+	public abstract void render(Graphics g);
 }

@@ -25,6 +25,6 @@ public class Pigeon extends Character implements Runnable, ObserverNewFood {
 	@Override
 	public void render(Graphics g) {
 		g.setColor(Color.RED);
-		g.drawOval((int) coordX, (int) coordY, 10, 10);
+		g.drawRect((int) coordX, (int) coordY, 10, 10);
 	}
 }

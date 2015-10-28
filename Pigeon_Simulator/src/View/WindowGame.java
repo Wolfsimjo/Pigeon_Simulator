@@ -1,4 +1,4 @@
-package view;
+package View;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.AppGameContainer;
@@ -11,8 +11,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 
 import Controler.GameControler;
-import model.Nouriture;
-import model.Pigeon;
+import Model.Nouriture;
+import Model.Pigeon;
 
 public class WindowGame extends BasicGame {
 	

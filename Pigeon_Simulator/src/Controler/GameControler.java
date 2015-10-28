@@ -8,8 +8,8 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
-import model.Nouriture;
-import model.Pigeon;
+import Model.Nouriture;
+import Model.Pigeon;
 
 public class GameControler extends Observable {
 

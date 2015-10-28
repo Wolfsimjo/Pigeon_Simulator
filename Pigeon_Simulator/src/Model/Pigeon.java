@@ -1,4 +1,4 @@
-package model;
+package Model;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -8,7 +8,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
 import Controler.GameControler;
-import view.WindowGame;
+import View.WindowGame;
 
 public class Pigeon extends Entity implements Runnable, Observer {
 

@@ -1,4 +1,4 @@
-package model;
+package Model;
 
 import java.util.concurrent.Semaphore;
 
@@ -8,7 +8,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import Controler.GameControler;
-import view.WindowGame;
+import View.WindowGame;
 
 public class Nouriture extends Entity {
 

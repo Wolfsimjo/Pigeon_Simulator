@@ -46,7 +46,6 @@ public class GameControler extends Observable {
 
 	public void addPigeon(Pigeon p) {
 		allPigeon.add(p);
-		addObserver(p);
 		p.start();
 	}
 
@@ -62,12 +61,14 @@ public class GameControler extends Observable {
 		nouritureFraiche = n;
 		nouvelleNouriture = true;
 		setChanged();
-		notifyObservers(n);
+		notifyObservers(true);
 	}
 
 	public void estMange(Nouriture n) {
 		if (nouritureFraiche.equals(n)) {
 			nouvelleNouriture = false;
+			setChanged();
+			notifyObservers(false);
 		}
 	}
 

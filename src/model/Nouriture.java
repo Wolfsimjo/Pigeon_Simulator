@@ -14,6 +14,11 @@ public class Nouriture extends Entity {
 
 	private boolean mange;
 	private Semaphore mutex;
+	
+	private int height = 32;
+	private int width = 32;
+	private int sizeX = 64;
+	private int sizeY = 64;
 
 	public Nouriture(double coordX, double coordY, GameControler gc) throws SlickException {
 		super(coordX, coordY, gc);
@@ -26,14 +31,14 @@ public class Nouriture extends Entity {
 		Image img;
 		if (gc.getNouritureFraiche() != null) {
 			if (mange) {
-				img = WindowGame.spriteN.getScaledCopy(128, 128).getSubImage(0, 0, 64, 64);
+				img = WindowGame.spriteN.getScaledCopy(sizeX, sizeY).getSubImage(0, 0, width, height);
 			} else if (gc.getNouritureFraiche().equals(this)) {
-				img = WindowGame.spriteN.getScaledCopy(128, 128).getSubImage(0, 64, 64, 64);
+				img = WindowGame.spriteN.getScaledCopy(sizeX, sizeY).getSubImage(0, sizeY/2, width, height);
 			} else {
-				img = WindowGame.spriteN.getScaledCopy(128, 128).getSubImage(64, 0, 64, 64);
+				img = WindowGame.spriteN.getScaledCopy(sizeX, sizeY).getSubImage(sizeX/2, 0, width, height);
 			}
 		} else {
-			img = WindowGame.spriteN.getScaledCopy(128, 128).getSubImage(64, 64, 64, 64);
+			img = WindowGame.spriteN.getScaledCopy(sizeX, sizeY).getSubImage(sizeX/2, sizeY/2, width, height);
 		}
 		g.drawImage(img, (int) super.coordX, (int) super.coordY);
 	}
@@ -55,4 +60,20 @@ public class Nouriture extends Entity {
 		mutex.release();
 		return tmp;
 	}
+
+	public boolean canEat(Pigeon p) {
+		boolean tmp = false;
+		if (p.coordX + 32 < coordX + width && p.coordX + 32 > coordX && p.coordY + 32 < coordY + height && p.coordY + 32 > coordY)
+			tmp = true;
+		return tmp;
+	}
+	
+	public int getMiddleX() {
+		return (int) (coordX + width/2);
+	}
+	
+	public int getMiddleY() {
+		return (int) (coordY + height/2);
+	}
+	
 }

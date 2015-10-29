@@ -13,6 +13,7 @@ import View.WindowGame;
 public class Nouriture extends Entity {
 
 	private boolean mange;
+	
 	private Semaphore mutex;
 	
 	private int height = 32;

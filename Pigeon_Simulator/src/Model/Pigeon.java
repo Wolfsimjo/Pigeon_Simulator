@@ -10,7 +10,7 @@ import org.newdawn.slick.SlickException;
 import Controler.GameControler;
 import View.WindowGame;
 
-public class Pigeon extends Entity implements Runnable, Observer {
+public class Pigeon extends Entity implements Runnable, Observer,RandomObserver {
 
 	private Nouriture nouritureFraiche;
 	private Etat etat;
@@ -82,6 +82,7 @@ public class Pigeon extends Entity implements Runnable, Observer {
 			default:
 				break;
 			}
+			Thread.yield(); //A voir si sa peut améliorer les perfs ....
 		}
 	}
 
@@ -121,5 +122,11 @@ public class Pigeon extends Entity implements Runnable, Observer {
 			this.etat = Etat.FiniMange;
 		} else
 			this.etat = Etat.Attente;
+	}
+
+	@Override
+	public void fear() {
+		//TODO Implementer le random pour la position
+		
 	}
 }

@@ -8,6 +8,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
+import Model.LittleBoy;
 import Model.Nouriture;
 import Model.Pigeon;
 
@@ -15,7 +16,8 @@ public class GameControler extends Observable {
 
 	private ArrayList<Pigeon> allPigeon;
 	private ArrayList<Nouriture> allNouriture;
-
+	private LittleBoy tommy;
+	
 	private Nouriture nouritureFraiche;
 	private boolean nouvelleNouriture;
 
@@ -25,6 +27,7 @@ public class GameControler extends Observable {
 		allPigeon = new ArrayList<Pigeon>();
 		allNouriture = new ArrayList<Nouriture>();
 		nouritureFraiche = null;
+		tommy = new LittleBoy(this);
 		mutex = new Semaphore(1);
 	}
 
@@ -89,5 +92,23 @@ public class GameControler extends Observable {
 		}
 		allNouriture.remove(n);
 		mutex.release();
+	}
+	
+	public void deleteAllOldNouriture()  //TODO faire en sorte de supprimer les nouriture pas fraiche 
+	{
+		for(Nouriture tmp : allNouriture){
+			try {
+				mutex.acquire();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			allNouriture.remove(tmp);
+			mutex.release();
+		}
+	}
+	
+	public ArrayList<Pigeon> getAlPigeon(){
+		return this.allPigeon;
 	}
 }

@@ -44,7 +44,7 @@ public class WindowGame extends BasicGame {
 	public void init(GameContainer container) throws SlickException {
 		this.container = container;
 		spriteN = new SpriteSheet("sprite/nouriture.png", 64, 64);
-		spriteP = new SpriteSheet("sprite/pigeon2.png", 64, 64);
+		spriteP = new SpriteSheet("sprite/pigeon3.png", 64, 64);
 		this.animations[0] = loadAnimation(spriteP, 0, 4, 0);
 	    this.animations[1] = loadAnimation(spriteP, 0, 4, 1);
 	    this.animations[2] = loadAnimation(spriteP, 0, 4, 2);

@@ -10,7 +10,7 @@ import org.newdawn.slick.SlickException;
 import Controler.GameControler;
 import View.WindowGame;
 
-public class Pigeon extends Entity implements Runnable, Observer,RandomObserver {
+public class Pigeon extends Entity implements Runnable, Observer {
 
 	private Nouriture nouritureFraiche;
 	private Etat etat;
@@ -19,6 +19,9 @@ public class Pigeon extends Entity implements Runnable, Observer,RandomObserver 
 	private float speed;
 	private double dirX;
 	private double dirY;
+
+	private double secureX;
+	private double secureY;
 
 	public Pigeon(double coordX, double coordY, GameControler gc) throws SlickException {
 		super(coordX, coordY, gc);
@@ -30,7 +33,7 @@ public class Pigeon extends Entity implements Runnable, Observer,RandomObserver 
 
 	@Override
 	public void render(GameContainer container, Graphics g) throws SlickException {
-		if (etat == Etat.EnChemin) {
+		if (etat == Etat.EnChemin || etat == Etat.Effraye) {
 			if (dirX > 0.5) {
 				g.drawAnimation(WindowGame.animations[2], (int) super.coordX, (int) super.coordY);
 			} else if (dirX < -0.5) {
@@ -51,7 +54,6 @@ public class Pigeon extends Entity implements Runnable, Observer,RandomObserver 
 			try {
 				sleep(10);
 			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			switch (etat) {
@@ -75,15 +77,34 @@ public class Pigeon extends Entity implements Runnable, Observer,RandomObserver 
 				break;
 
 			case EnChemin:
+				refreshDirection(nouritureFraiche);
 				moveTo(nouritureFraiche);
 				canEat(nouritureFraiche);
 				break;
 
+			case Effraye:
+				refreshDirection(secureX, secureY);
+				moveTo(secureX, secureY);
+				isSecure();
 			default:
 				break;
 			}
-			Thread.yield(); //A voir si sa peut améliorer les perfs ....
+			Thread.yield(); // A voir si sa peut améliorer les perfs ....
 		}
+	}
+
+	private void isSecure() {
+		if (((int) coordX <= (int) secureX && (int) coordX + 16 > (int) secureX 
+				&& (int) coordY <= (int) secureY && (int) coordY + 16 > (int) secureY)) {
+			speed = 0.5f;
+			etat = Etat.FiniMange;
+		}
+	}
+
+	private void randSecure() {
+		secureX = (int) (Math.random() * 641-64);
+		secureY = (int) (Math.random() * 481-64);
+		speed = 1f;
 	}
 
 	private void canEat(Nouriture n) {
@@ -100,11 +121,19 @@ public class Pigeon extends Entity implements Runnable, Observer,RandomObserver 
 	}
 
 	private void moveTo(Nouriture n) {
-		refreshDirection(n);
 		double norm = Math.sqrt(dirX * dirX + dirY * dirY);
 		dirX = dirX / norm;
 		dirY = dirY / norm;
-		// System.out.println(Math.sqrt(dirX*dirX + dirY*dirY));
+
+		this.coordX = coordX + dirX * speed;
+		this.coordY = coordY + dirY * speed;
+	}
+
+	private void moveTo(double x, double y) {
+		double norm = Math.sqrt(dirX * dirX + dirY * dirY);
+		dirX = dirX / norm;
+		dirY = dirY / norm;
+
 		this.coordX = coordX + dirX * speed;
 		this.coordY = coordY + dirY * speed;
 	}
@@ -112,6 +141,11 @@ public class Pigeon extends Entity implements Runnable, Observer,RandomObserver 
 	private void refreshDirection(Nouriture n) {
 		dirX = n.getMiddleX() - coordX - 32;
 		dirY = n.getMiddleY() - coordY - 32;
+	}
+
+	private void refreshDirection(double x, double y) {
+		dirX = x - coordX;
+		dirY = y - coordY;
 	}
 
 	@Override
@@ -124,9 +158,22 @@ public class Pigeon extends Entity implements Runnable, Observer,RandomObserver 
 			this.etat = Etat.Attente;
 	}
 
-	@Override
+	public boolean isInZone(LittleBoy e) {
+		int z = e.getZone();
+		int x = (int) e.coordX;
+		int y = (int) e.coordY;
+		if (coordX + 32 > x - z && coordX + 32 < x + z + 32 
+				&& coordY + 32 > y - z && coordY + 32 < y + z + 32) {
+			return true;
+		}
+		return false;
+	}
+
 	public void fear() {
-		//TODO Implementer le random pour la position
-		
+		if (etat != Etat.Effraye) {
+			randSecure();
+			etat = Etat.Effraye;
+		}
+
 	}
 }

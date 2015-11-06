@@ -5,53 +5,141 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
 import Controler.GameControler;
+import View.WindowGame;
 
-public class LittleBoy extends Entity implements RandomNotifier{
+public class LittleBoy extends Entity {
 
 	private boolean bFinal;
-	private int minTime, maxTime; //Temps d'attente min et max
-	
-	public LittleBoy(GameControler gc){
-		super(0,0,gc);
+	private int minTime, maxTime; // Temps d'attente min et max
+	private int zone;
+
+	private EtatLittleBoy etat;
+
+	private float speed;
+	private double dirX;
+	private double dirY;
+
+	private double destX;
+	private double destY;
+
+	public LittleBoy(GameControler gc) {
+		super(-50, -50, gc);
 		this.bFinal = true;
-		this.minTime = 1;
-		this.maxTime = 10;
+		this.minTime = 5;
+		this.maxTime = 20;
+		this.zone = 50;
+
+		speed = 1f;
+		dirX = 0;
+		dirY = 0;
+		etat = EtatLittleBoy.Sleep;
 	}
-	
+
 	public LittleBoy(double coordX, double coordY, GameControler gc) {
 		super(coordX, coordY, gc);
-		
+		this.bFinal = true;
+		this.minTime = 5;
+		this.maxTime = 20;
+		this.zone = 50;
+
+		speed = 1f;
+		dirX = 0;
+		dirY = 0;
+		etat = EtatLittleBoy.Sleep;
 	}
-	
-	public void run()
-	{
-		while(bFinal)
-		{
-			try 
-			{
-				Thread.sleep((this.minTime + (int)(Math.random() * ((this.maxTime - this.minTime) + 1))*1000));
-				this.notifyObserver();
-			} 
-			catch (InterruptedException e) 
-			{
-				e.printStackTrace();
-				this.bFinal = false;
+
+	public void run() {
+		while (bFinal) {
+			try {
+				sleep(10);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+			switch (etat) {
+			case Sleep:
+				try {
+					sleep((this.minTime + (int) (Math.random() * ((this.maxTime - this.minTime) + 1)) * 1000));
+				} catch (InterruptedException e1) {
+					bFinal = false;
+					e1.printStackTrace();
+				}
+				beginFear();
+				break;
+
+			case Chase:
+				fear();
+				break;
+
+			default:
+				break;
 			}
 			Thread.yield();
 		}
 	}
-	
+
 	@Override
 	public void render(GameContainer container, Graphics g) throws SlickException {
-		// TODO Auto-generated method stub
-		
+		if (dirX > 0.5) {
+			g.drawAnimation(WindowGame.animationsC[2], (int) super.coordX, (int) super.coordY);
+		} else if (dirX < -0.5) {
+			g.drawAnimation(WindowGame.animationsC[1], (int) super.coordX, (int) super.coordY);
+		} else if (dirY > 0.5) {
+			g.drawAnimation(WindowGame.animationsC[0], (int) super.coordX, (int) super.coordY);
+		} else {
+			g.drawAnimation(WindowGame.animationsC[3], (int) super.coordX, (int) super.coordY);
+		}
+		g.drawOval((int) coordX - zone / 2, (int) coordY - zone / 2, zone + 32, zone + 32);
 	}
-	
-	@Override
-	public void notifyObserver() {
-		for (Pigeon tmp : this.gc.getAlPigeon()) { 		      
-	           tmp.fear();		
-	    }
+
+	private void beginFear() {
 		this.gc.deleteAllOldNouriture();
+		randPosition();
+		randDestination();
+		etat = EtatLittleBoy.Chase;
 	}
+
+	private void fear() {
+		moveToDestination();
+		gc.fear(this);
+		if (arrivedToDestination()) {
+			etat = etat.Sleep;
+		}
+	}
+
+	public int getZone() {
+		return this.zone;
+	}
+
+	private void moveToDestination() {
+		refreshDirectionDestination();
+		double norm = Math.sqrt(dirX * dirX + dirY * dirY);
+		dirX = dirX / norm;
+		dirY = dirY / norm;
+
+		this.coordX = coordX + dirX * speed;
+		this.coordY = coordY + dirY * speed;
+	}
+
+	private void refreshDirectionDestination() {
+		dirX = destX - coordX;
+		dirY = destY - coordY;
+	}
+
+	private void randPosition() {
+		int tmp = (int) (Math.random() * (641) + 1);
+		coordX = tmp;
+		coordY = -30;
+	}
+
+	private void randDestination() {
+		int tmp = (int) (Math.random() * (641) + 1);
+		destX = tmp;
+		destY = 520;
+	}
+
+	private boolean arrivedToDestination() {
+		return ((int) coordX <= (int) destX && (int) coordX + 16 > (int) destX && (int) coordY <= (int) destY
+				&& (int) coordY + 16 > (int) destY);
+	}
+
 }

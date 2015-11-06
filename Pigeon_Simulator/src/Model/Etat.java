@@ -5,6 +5,7 @@ public enum Etat {
 	Attente,
 	EnChemin,
 	Mange,
-	FiniMange
+	FiniMange,
+	Effraye
 	
 }

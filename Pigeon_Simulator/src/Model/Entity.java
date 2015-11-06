@@ -18,11 +18,6 @@ public abstract class Entity extends Thread {
 		this.gc = gc;
 	}
 
-	public void moveTo(double newX, double newY) {
-		this.coordX = newX;
-		this.coordY = newY;
-	}
-
 	public double getCoordX() {
 		return coordX;
 	}

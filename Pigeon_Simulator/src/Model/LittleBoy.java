@@ -102,7 +102,7 @@ public class LittleBoy extends Entity {
 		moveToDestination();
 		gc.fear(this);
 		if (arrivedToDestination()) {
-			etat = etat.Sleep;
+			etat = EtatLittleBoy.Sleep;
 		}
 	}
 

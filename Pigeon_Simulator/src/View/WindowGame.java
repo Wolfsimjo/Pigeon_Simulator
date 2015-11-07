@@ -45,17 +45,17 @@ public class WindowGame extends BasicGame {
 	@Override
 	public void init(GameContainer container) throws SlickException {
 		this.container = container;
-		spriteN = new SpriteSheet("Pigeon_Simulator/sprite/nouriture.png", 64, 64);
-		spriteP = new SpriteSheet("Pigeon_Simulator/sprite/pigeon3.png", 64, 64);
-		spriteC = new SpriteSheet("Pigeon_Simulator/sprite/child.png", 32, 32);
-		this.animations[0] = loadAnimation(spriteP, 0, 4, 0);
-	    this.animations[1] = loadAnimation(spriteP, 0, 4, 1);
-	    this.animations[2] = loadAnimation(spriteP, 0, 4, 2);
-	    this.animations[3] = loadAnimation(spriteP, 0, 4, 3);
-		this.animationsC[0] = loadAnimation(spriteC, 0, 3, 0);
-	    this.animationsC[1] = loadAnimation(spriteC, 0, 3, 1);
-	    this.animationsC[2] = loadAnimation(spriteC, 0, 3, 2);
-	    this.animationsC[3] = loadAnimation(spriteC, 0, 3, 3);
+		spriteN = new SpriteSheet("sprite/nouriture.png", 64, 64);
+		spriteP = new SpriteSheet("sprite/pigeon3.png", 64, 64);
+		spriteC = new SpriteSheet("sprite/child.png", 32, 32);
+		WindowGame.animations[0] = loadAnimation(spriteP, 0, 4, 0);
+		WindowGame.animations[1] = loadAnimation(spriteP, 0, 4, 1);
+		WindowGame.animations[2] = loadAnimation(spriteP, 0, 4, 2);
+	    WindowGame.animations[3] = loadAnimation(spriteP, 0, 4, 3);
+	    WindowGame.animationsC[0] = loadAnimation(spriteC, 0, 3, 0);
+	    WindowGame.animationsC[1] = loadAnimation(spriteC, 0, 3, 1);
+	    WindowGame.animationsC[2] = loadAnimation(spriteC, 0, 3, 2);
+	    WindowGame.animationsC[3] = loadAnimation(spriteC, 0, 3, 3);
 	}
 
 	@Override

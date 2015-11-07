@@ -89,7 +89,7 @@ public class Pigeon extends Entity implements Runnable, Observer {
 			default:
 				break;
 			}
-			Thread.yield(); // A voir si sa peut améliorer les perfs ....
+			Thread.yield();
 		}
 	}
 

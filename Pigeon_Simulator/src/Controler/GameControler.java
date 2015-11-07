@@ -110,16 +110,20 @@ public class GameControler extends Observable {
 	}
 
 	public void deleteAllOldNouriture() {
+		ArrayList<Nouriture> tmpList = new ArrayList<Nouriture>();
 		try {
 			mutexN.acquire();
+			mutex.acquire();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 		for (Nouriture tmp : allNouriture) {
 			if (!getNouritureFraiche().equals(tmp)) {
-				deleteNouriture(tmp);
-			}
+				tmpList.add(tmp);
+			}			
 		}
+		this.allNouriture.removeAll(tmpList);
+		mutex.release();
 		mutexN.release();
 	}
 

@@ -44,6 +44,9 @@ public class Nouriture extends Entity {
 		g.drawImage(img, (int) super.coordX, (int) super.coordY);
 	}
 
+	/**
+	 * Retourne vrai si la nouriture n est pas encore mangee 
+	 */
 	public boolean eat() {
 		boolean tmp;
 		try {
@@ -62,6 +65,9 @@ public class Nouriture extends Entity {
 		return tmp;
 	}
 
+	/**
+	 * Retourne vrai si la nouriture peut etre mangee par le pigeon p
+	 */
 	public boolean canEat(Pigeon p) {
 		boolean tmp = false;
 		if (p.coordX + 32 < coordX + width && p.coordX + 32 > coordX && p.coordY + 32 < coordY + height && p.coordY + 32 > coordY)
@@ -69,10 +75,16 @@ public class Nouriture extends Entity {
 		return tmp;
 	}
 	
+	/**
+	 * Retourne l abscisse correspondant au milieu de la nouriture
+	 */
 	public int getMiddleX() {
 		return (int) (coordX + width/2);
 	}
 	
+	/**
+	 * Retourne l ordonnee correspondant au milieu de la nouriture
+	 */
 	public int getMiddleY() {
 		return (int) (coordY + height/2);
 	}

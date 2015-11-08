@@ -34,6 +34,9 @@ public class WindowGame extends BasicGame {
 		new AppGameContainer(new WindowGame("Pigeons"), 640, 480, false).start();
 	}
 	
+	/**
+	 * Charge les animations du sprite 
+	 */
 	private Animation loadAnimation(SpriteSheet spriteSheet, int startX, int endX, int y) {
 	    Animation animation = new Animation();
 	    for (int x = startX; x < endX; x++) {
@@ -42,6 +45,9 @@ public class WindowGame extends BasicGame {
 	    return animation;
 	}
 
+	/**
+	 * Initialise les différentes images et animations de l'application
+	 */
 	@Override
 	public void init(GameContainer container) throws SlickException {
 		this.container = container;
@@ -68,7 +74,7 @@ public class WindowGame extends BasicGame {
 	@Override
 	public void update(GameContainer arg0, int arg1) throws SlickException {
 	}
-	
+
 	@Override
     public void keyReleased(int key, char c) {
         if (Input.KEY_ESCAPE == key) {
@@ -76,6 +82,9 @@ public class WindowGame extends BasicGame {
         }
     }
 	
+	/**
+	 * Fonction exexutee lors d'une interaction avec la souris
+	 */
 	@Override
 	public void mouseClicked(int button, int x, int y, int clickCount) {
 		switch (button) {

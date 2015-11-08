@@ -52,6 +52,9 @@ public class GameControler extends Observable {
 		mutex.release();
 	}
 
+	/**
+	 * Ajoute le pigeon p dans notre scene
+	 */
 	public void addPigeon(Pigeon p) {
 		try {
 			mutexP.acquire();
@@ -63,6 +66,11 @@ public class GameControler extends Observable {
 		p.start();
 	}
 
+	/**
+	 * Ajoute la nouriture n dans notre scene
+	 * Si il existait deja une nouriture celle ci devient pourrie 
+	 * et la nouvelle devient fraiche
+	 */
 	public void addNouriture(Nouriture n) {
 		try {
 			mutex.acquire();
@@ -83,6 +91,9 @@ public class GameControler extends Observable {
 		notifyObservers(true);
 	}
 
+	/**
+	 * Verifie si la nouriture fraiche est mangee
+	 */
 	public void estMange(Nouriture n) {
 		if (nouritureFraiche.equals(n)) {
 			nouvelleNouriture = false;
@@ -91,14 +102,23 @@ public class GameControler extends Observable {
 		}
 	}
 
+	/**
+	 * Retourne vrai si il y a une nouriture fraiche dans la scene
+	 */
 	public boolean isNouvelleNouriture() {
 		return nouvelleNouriture;
 	}
 
+	/**
+	 * Retourne la nouriture fraiche de la scene
+	 */
 	public Nouriture getNouritureFraiche() {
 		return nouritureFraiche;
 	}
 
+	/**
+	 * Supprime la nouriture n de la scene
+	 */
 	public void deleteNouriture(Nouriture n) {
 		try {
 			mutex.acquire();
@@ -109,6 +129,9 @@ public class GameControler extends Observable {
 		mutex.release();
 	}
 
+	/**
+	 * Supprime toutes les nouritures pourries de la scene
+	 */
 	public void deleteAllOldNouriture() {
 		ArrayList<Nouriture> tmpList = new ArrayList<Nouriture>();
 		try {
@@ -127,10 +150,16 @@ public class GameControler extends Observable {
 		mutexN.release();
 	}
 
+	/**
+	 * Retourne tous les pigeons de la scene
+	 */
 	public ArrayList<Pigeon> getAllPigeon() {
 		return this.allPigeon;
 	}
 
+	/**
+	 * Effraie les pigeons
+	 */
 	public void fear(LittleBoy c) {
 		try {
 			mutexP.acquire();

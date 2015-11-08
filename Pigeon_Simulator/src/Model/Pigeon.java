@@ -48,6 +48,9 @@ public class Pigeon extends Entity implements Runnable, Observer {
 		}
 	}
 
+	/**
+	 * Fonction d execution du pigeon
+	 */
 	@Override
 	public void run() {
 		while (true) {
@@ -93,6 +96,10 @@ public class Pigeon extends Entity implements Runnable, Observer {
 		}
 	}
 
+	/**
+	 * Retourne vrai si le pigeon est alle a sa position secure 
+	 * (position random apres avoir ete effraye par le garcon)
+	 */
 	private void isSecure() {
 		if (((int) coordX <= (int) secureX && (int) coordX + 16 > (int) secureX 
 				&& (int) coordY <= (int) secureY && (int) coordY + 16 > (int) secureY)) {
@@ -101,25 +108,32 @@ public class Pigeon extends Entity implements Runnable, Observer {
 		}
 	}
 
+	/**
+	 * Instancie la position secure
+	 */
 	private void randSecure() {
 		secureX = (int) (Math.random() * 641-64);
 		secureY = (int) (Math.random() * 481-64);
 		speed = 1f;
 	}
 
+	/**
+	 * Indique si le pigeon peut manger la nouriture
+	 */
 	private void canEat(Nouriture n) {
 		if (n.canEat(this)) {
 			if (n.eat()) {
-				System.out.println("mange");
 				mangeNouriture = n;
 				etat = Etat.Mange;
 			} else {
-				System.out.println("attente");
 				etat = Etat.Attente;
 			}
 		}
 	}
 
+	/**
+	 * Fonction de deplacement du pigeon en direction de la nouriture n
+	 */
 	private void moveTo(Nouriture n) {
 		double norm = Math.sqrt(dirX * dirX + dirY * dirY);
 		dirX = dirX / norm;
@@ -129,6 +143,9 @@ public class Pigeon extends Entity implements Runnable, Observer {
 		this.coordY = coordY + dirY * speed;
 	}
 
+	/**
+	 * Fonction de deplacement du pigeon en direction de la position (x, y)
+	 */
 	private void moveTo(double x, double y) {
 		double norm = Math.sqrt(dirX * dirX + dirY * dirY);
 		dirX = dirX / norm;
@@ -138,11 +155,17 @@ public class Pigeon extends Entity implements Runnable, Observer {
 		this.coordY = coordY + dirY * speed;
 	}
 
+	/**
+	 * Met a jour la direction du pigeon et le tourne vers la nouriture n
+	 */
 	private void refreshDirection(Nouriture n) {
 		dirX = n.getMiddleX() - coordX - 32;
 		dirY = n.getMiddleY() - coordY - 32;
 	}
 
+	/**
+	 * Met a jour la direction du pigeon et le tourne vers la position (x, y)
+	 */
 	private void refreshDirection(double x, double y) {
 		dirX = x - coordX;
 		dirY = y - coordY;
@@ -158,6 +181,9 @@ public class Pigeon extends Entity implements Runnable, Observer {
 			this.etat = Etat.Attente;
 	}
 
+	/**
+	 * Retourne vrai si le pigeon est dans la zone de frayeur du garcon
+	 */
 	public boolean isInZone(LittleBoy e) {
 		int z = e.getZone();
 		int x = (int) e.coordX;
@@ -169,6 +195,9 @@ public class Pigeon extends Entity implements Runnable, Observer {
 		return false;
 	}
 
+	/**
+	 * Effraie le pigeon
+	 */
 	public void fear() {
 		if (etat != Etat.Effraye) {
 			randSecure();

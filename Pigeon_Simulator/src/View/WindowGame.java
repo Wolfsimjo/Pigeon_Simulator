@@ -6,6 +6,7 @@ import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
@@ -18,10 +19,12 @@ public class WindowGame extends BasicGame {
 	
 	private GameControler gc;
 	private GameContainer container;
+	private Image backgroundPicture;
 
 	public static SpriteSheet spriteN;
 	public static SpriteSheet spriteP;
 	public static SpriteSheet spriteC;
+	
 	public static Animation[] animations = new Animation[8];
 	public static Animation[] animationsC = new Animation[8];
 
@@ -54,6 +57,7 @@ public class WindowGame extends BasicGame {
 		spriteN = new SpriteSheet("sprite/nouriture.png", 64, 64);
 		spriteP = new SpriteSheet("sprite/pigeon3.png", 64, 64);
 		spriteC = new SpriteSheet("sprite/child.png", 32, 32);
+		backgroundPicture = new Image("sprite/bg_grass.jpg");
 		WindowGame.animations[0] = loadAnimation(spriteP, 0, 4, 0);
 		WindowGame.animations[1] = loadAnimation(spriteP, 0, 4, 1);
 		WindowGame.animations[2] = loadAnimation(spriteP, 0, 4, 2);
@@ -62,12 +66,14 @@ public class WindowGame extends BasicGame {
 	    WindowGame.animationsC[1] = loadAnimation(spriteC, 0, 3, 1);
 	    WindowGame.animationsC[2] = loadAnimation(spriteC, 0, 3, 2);
 	    WindowGame.animationsC[3] = loadAnimation(spriteC, 0, 3, 3);
+	    backgroundPicture.draw(0,0);	    
 	}
 
 	@Override
 	public void render(GameContainer container, Graphics g) throws SlickException {
 		g.clear();
-		g.setBackground(Color.lightGray);
+		//g.setBackground(Color.lightGray);
+		g.drawImage(backgroundPicture, 0, 0);
 		gc.render(container, g);
 	}
 
